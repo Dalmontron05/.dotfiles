@@ -1,0 +1,14 @@
+[user]
+	email = vexr2dts85338@gmail.com
+	name = Dalmontron05
+[init]
+	defaultBranch = main
+[credential]
+	helper = store
+[pull]
+	ff = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

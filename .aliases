@@ -1,0 +1,7 @@
+# rm will send file to trash instead of outright deleting it
+alias rm='trash-put'
+
+# SOURCE: https://github.com/evilcrash/dotfiles/blob/main/.aliases
+# checks disk space
+alias disks="lsblk -ao NAME,SIZE,FSTYPE,FSAVAIL,FSUSE%,FSUSED,MOUNTPOINTS"
+
