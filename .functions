@@ -24,32 +24,26 @@ function la(){
 # PARAMATERS: $1 = git branch, $2 = git message
 gitPush()
 {
+  # Sets command line arguments to respective variables
   branch=$1
   message=$2
 
+  # If branch is null, prompts user to enter branch
   if [ -z $branch ]
   then
-      git add -A
       echo "Enter Git Branch"
       read branch
-
-      echo "Enter Commit Message"
-      read message
-      git commit -m "$message"
-      git push origin $branch
-
-  elif [-z $message ]
-  then
-      git add -A
-      echo "Enter Commit Message"
-      read message
-      git commit -m "$message"
-      git push origin $branch
-      
-  else
-      git add -A
-      git commit -m "$message"
-      git push origin $branch
   fi
+
+  # If message is null, prompts user to enter message
+  if [ -z $message ]
+  then
+      echo "Enter Commit Message"
+      read message
+  fi
+
+  git add -A
+  git commit -m "$message"
+  git push origin $branch
 }
 
