@@ -1,13 +1,10 @@
 #!/bin/bash
+#* Bash Functions that can be used globally in the OS
+
+
 
 # SOURCE: https://github.com/evilcrash/dotfiles/blob/main/.functions
-# Create a new directory and enter it
-function md() {
-	mkdir -p "$@" && cd "$@"
-}
-
-# SOURCE: https://github.com/evilcrash/dotfiles/blob/main/.functions
-# List all files, long format, colorized, permissions in octal
+# Lists all files, long format, colorized, permissions in octal
 function la(){
  	ls -l  "$@" | awk '
     {
@@ -20,13 +17,15 @@ function la(){
     }'
 }
 
-# pushes changes made to working directories github respository.
-# PARAMATERS: $1 = git branch, $2 = git message
+
+# Pushes local changes to git remote
+#* @params: $1 = git branch, $2 = git message
 gitPush()
 {
   # Sets command line arguments to respective variables
   branch=$1
   message=$2
+
 
   # If branch is null, prompts user to enter branch
   if [ -z $branch ]
@@ -35,6 +34,7 @@ gitPush()
       read branch
   fi
 
+
   # If message is null, prompts user to enter message
   if [ -z $message ]
   then
@@ -42,8 +42,45 @@ gitPush()
       read message
   fi
 
+
   git add -A
   git commit -m "$message"
-  git push origin $branch
+  git push -u origin $branch
+  echo "done"
+}
+
+
+# Merges local git branch to another, then pushes that branch to remote. Assumes user already pushed changes to willMergeBranch.
+#! Has not been tested yet
+
+#* @param willMergeBranch || The branch that will merge into another branch
+#* @param willBeMergedBranch  || The branch that will be merged into.
+gitMerge()
+{
+  # Sets command line arguments to respective variables
+  willMergeBranch=$1
+  willBeMergedBranch=$2
+
+
+  # If willMergeBranch is null, prompts user to enter branch
+  if [ -z $willMergeBranch ]
+  then
+      echo "Enter Branch that will merge to another branch"
+      read willMergeBranch
+  fi
+
+
+  # If willBeMergedBranch is null, prompts user to enter message
+  if [ -z $willBeMergedBranch ]
+  then
+      echo "Enter Branch that will be merged into"
+      read willBeMergedBranch
+  fi 
+
+
+  git checkout $willBeMergedBranch
+  git merge $willMergeBranch
+  git push -u origin $willMergeBranch
+  echo "done"
 }
 
