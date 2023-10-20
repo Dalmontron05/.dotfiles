@@ -47,7 +47,7 @@ function finishingTouches
 
 
 # Checks if $1 is minimal. If so, do minimal update
-if [ $1 == "minimal" ]
+if [ "$1" == "minimal" ]
 then
     beginningTouches
     mountDrives
@@ -56,7 +56,7 @@ fi
 
 
 # Checks if $1 is everything OR null. If so, execute all code
-if [ $1 == "everything" || ! -z $1 ]
+if [ "$1" == "everything" || ! -z "$1" ]
 then
     beginningTouches
     mountDrives
