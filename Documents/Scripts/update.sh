@@ -3,8 +3,8 @@
 
 
 
-#* @PARAM (String) $1 = minimal OR everything. $1: Type of Update
-    # Minimal will only execute beginning/finishing touches, and mounts drive. Everything will execute all code. If $1 is null, will default to everything.
+#* @PARAM (String) $1 = minimal OR null. $1: Type of Update
+    # Minimal will only execute beginning/finishing touches, and mounts drive. If not minimal, will execute all code.
 
 
 # FUNCTIONS
@@ -52,12 +52,7 @@ then
     beginningTouches
     mountDrives
     finishingTouches
-fi
-
-
-# Checks if $1 is everything OR null. If so, execute all code
-if [ "$1" == "everything" ] || [ ! -z "$1" ]
-then
+else
     beginningTouches
     mountDrives
 
