@@ -56,7 +56,7 @@ fi
 
 
 # Checks if $1 is everything OR null. If so, execute all code
-if [ "$1" == "everything" || ! -z "$1" ]
+if [ "$1" == "everything" ] || [ ! -z "$1" ]
 then
     beginningTouches
     mountDrives
