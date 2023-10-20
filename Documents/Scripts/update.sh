@@ -2,56 +2,97 @@
 # This is a bash script to upgrade the system and the shutdown
 
 
-# Beginning touches
-date
-cal
-neofetch
-# curl wttr.in/?0Q/Goodyear # I swear to god this piece of shit command never works bro ong ong 50% of the time it times out 100% of the time
+
+#* @PARAM (String) $1 = minimal OR everything. $1: Type of Update
+    # Minimal will only execute beginning/finishing touches, and mounts drive. Everything will execute all code. If $1 is null, will default to everything.
 
 
-# Mounts old 1tb hard drive
-sudo mount /dev/sdb1 /home/dalmontron/.mnt/hdd/
+# FUNCTIONS
+function beginningTouches
+{
+    # Beginning touches
+    date
+    cal
+    neofetch
+    # curl wttr.in/?0Q/Goodyear # I swear to god this piece of shit command never works bro ong ong 50% of the time it times out 100% of the time
+}
 
 
-# Syncs dotfiles to git
-cd
-commitDay=$(date)
-git add ./.face ./.profile ./.bash_profile ./.bashrc ./.gitconfig ./.functions ./.aliases ./Documents/Scripts/update.sh
-git commit -m "$commitDay"
-git push origin main
-echo "finished backup of dotfiles"
+function mountDrives
+{
+    # Mounts old 1tb hard drive
+    sudo mount /dev/sdb1 /home/dalmontron/.mnt/hdd/
+}
 
 
-# Syncs music to git
-cd /home/dalmontron/Music/dals-mixtape/
-git add -A
-git commit -m "$commitDay"
-git push -f
-echo "finished backup of music"
+function finishingTouches
+{
+    # finishing touches
+    echo "
+    ⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠋⠉⠁⠄⠄⠈⠙⠻⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⠟⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⢿⣿
+    ⣿⣿⣿⣿⡿⠃⠄⠄⠄⢀⣀⣀⡀⠄⠄⠄⠄⠄⠄⠄⠈⢿
+    ⣿⣿⣿⡟⠄⠄⠄⠄⠐⢻⣿⣿⣿⣷⡄⠄⠄⠄⠄⠄⠄⠈
+    ⣿⣿⣿⠃⠄⠄⠄⢀⠴⠛⠙⣿⣿⡿⣿⣦⠄⠄⠄⠄⠄⠄
+    ⣿⣿⠃⠄⢠⡖⠉⠄⠄⠄⣠⣿⡏⠄⢹⣿⠄⠄⠄⠄⠄⢠
+    ⣿⠃⠄⠄⢸⣧⣤⣤⣤⢾⣿⣿⡇⠄⠈⢻⡆⠄⠄⠄⠄⣾
+    ⠁⠄⠄⠄⠈⠉⠛⢿⡟⠉⠉⣿⣷⣀⠄⠄⣿⡆⠄⠄⢠⣿
+    ⠄⠄⠄⠄⠄⠄⢠⡿⠿⢿⣷⣿⣿⣿⣿⣿⠿⠃⠄⠄⣸⣿
+    ⠄⠄⠄⠄⠄⢀⡞⠄⠄⠄⠈⣿⣿⣿⡟⠁⠄⠄⠄⠄⣿⣿
+    ⠄⠄⠄⠄⠄⢸⠄⠄⠄⠄⢀⣿⣿⡟⠄⠄⠄⠄⠄⢠⣿⣿
+    ⠄⠄⠄⠄⠄⠘⠄⠄⠄⢀⡼⠛⠉⠄⠄⠄⠄⠄⠄⣼⣿⣿
+    ⠄⠄⠄⠄⠄⡇⠄⠄⢀⠎⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⢿⣿
+    ⠄⠄⠄⠄⢰⠃⠄⢀⠎⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙"
+}
 
 
-# Updates Mirrors
-sudo pacman-mirrors -f 5
+# Checks if $1 is minimal. If so, do minimal update
+if [ $1 == "minimal" ]
+then
+    beginningTouches
+    mountDrives
+    finishingTouches
+fi
 
 
-# Upgrades the system
-sudo pacman -Syu
+# Checks if $1 is everything OR null. If so, execute all code
+if [ $1 == "everything" || ! -z $1 ]
+then
+    beginningTouches
+    mountDrives
+
+    # Syncs dotfiles to git
+    cd
+    commitDay=$(date)
+    git add ./.face ./.profile ./.bash_profile ./.bashrc ./.gitconfig ./.functions ./.aliases ./Documents/Scripts/update.sh
+    git commit -m "$commitDay"
+    git push origin main
+    echo "finished backup of dotfiles"
 
 
-# finishing touches
-echo "
-⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠋⠉⠁⠄⠄⠈⠙⠻⣿⣿⣿⣿
-⣿⣿⣿⣿⣿⣿⠟⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⢿⣿
-⣿⣿⣿⣿⡿⠃⠄⠄⠄⢀⣀⣀⡀⠄⠄⠄⠄⠄⠄⠄⠈⢿
-⣿⣿⣿⡟⠄⠄⠄⠄⠐⢻⣿⣿⣿⣷⡄⠄⠄⠄⠄⠄⠄⠈
-⣿⣿⣿⠃⠄⠄⠄⢀⠴⠛⠙⣿⣿⡿⣿⣦⠄⠄⠄⠄⠄⠄
-⣿⣿⠃⠄⢠⡖⠉⠄⠄⠄⣠⣿⡏⠄⢹⣿⠄⠄⠄⠄⠄⢠
-⣿⠃⠄⠄⢸⣧⣤⣤⣤⢾⣿⣿⡇⠄⠈⢻⡆⠄⠄⠄⠄⣾
-⠁⠄⠄⠄⠈⠉⠛⢿⡟⠉⠉⣿⣷⣀⠄⠄⣿⡆⠄⠄⢠⣿
-⠄⠄⠄⠄⠄⠄⢠⡿⠿⢿⣷⣿⣿⣿⣿⣿⠿⠃⠄⠄⣸⣿
-⠄⠄⠄⠄⠄⢀⡞⠄⠄⠄⠈⣿⣿⣿⡟⠁⠄⠄⠄⠄⣿⣿
-⠄⠄⠄⠄⠄⢸⠄⠄⠄⠄⢀⣿⣿⡟⠄⠄⠄⠄⠄⢠⣿⣿
-⠄⠄⠄⠄⠄⠘⠄⠄⠄⢀⡼⠛⠉⠄⠄⠄⠄⠄⠄⣼⣿⣿
-⠄⠄⠄⠄⠄⡇⠄⠄⢀⠎⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⢿⣿
-⠄⠄⠄⠄⢰⠃⠄⢀⠎⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙"
+    # Syncs music to git
+    cd /home/dalmontron/Music/dals-mixtape/
+    git add -A
+    git commit -m "$commitDay"
+    git push -f
+    echo "finished backup of music"
+
+
+    # Updates Mirrors
+    sudo pacman-mirrors -f 5
+
+
+    # Upgrades the system
+    sudo pacman -Syu
+
+    finishingTouches
+fi
+
+
+
+
+
+
+
+
 
