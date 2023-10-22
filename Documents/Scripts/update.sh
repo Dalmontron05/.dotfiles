@@ -7,7 +7,7 @@
     # Minimal will only execute beginning/finishing touches, and mounts drive. If not minimal, will execute all code.
 
 
-# FUNCTIONS
+#* FUNCTIONS
 function beginningTouches
 {
     # Beginning touches
@@ -82,12 +82,4 @@ else
 
     finishingTouches
 fi
-
-
-
-
-
-
-
-
 
