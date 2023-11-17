@@ -25,3 +25,5 @@
 	directory = /home/dalmontron/.mnt/hdd/Projects/unreal-engine-projects/project1
 	directory = /home/dalmontron/.mnt/hdd/Projects/unreal-engine-projects/max-runner
 	directory = /home/dalmontron/.mnt/hdd/Projects/unreal-engine-projects/please-step-forward
+[pager]
+	branch = true
