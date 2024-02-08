@@ -64,14 +64,6 @@ else
     echo "finished backup of dotfiles"
 
 
-    # Syncs music to git
-    cd /home/dalmontron/Music/dals-mixtape/
-    git add -A
-    git commit -m "$commitDay"
-    git push -f
-    echo "finished backup of music"
-
-
     # Updates Mirrors
     sudo pacman-mirrors -f 5
 
